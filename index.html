@@ -88,11 +88,15 @@ select.form-input{cursor:pointer}
 .h-back{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
 .h-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700}
 .history-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
-.hc-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.hc-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .hc-type{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.05em}
 .hc-date{font-size:11px;color:var(--text3);margin-left:auto}
-.hc-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.hc-btn{margin-top:10px;font-size:12px;font-weight:600;color:var(--text2);background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif}
+.hc-client{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.hc-email{font-size:11px;color:var(--text2);margin-bottom:8px}
+.hc-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+.hc-actions{display:flex;gap:6px;flex-wrap:wrap}
+.hc-btn{font-size:12px;font-weight:600;color:var(--text2);background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif}
+.hc-btn.send{background:var(--orange-glow);border-color:rgba(244,124,32,0.3);color:var(--orange)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:10px 0 env(safe-area-inset-bottom,10px);z-index:40}
 .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px;transition:opacity .15s}
 .bn-icon{font-size:20px}
@@ -105,13 +109,10 @@ select.form-input{cursor:pointer}
 .action-card:nth-child(1){animation-delay:.05s}
 .action-card:nth-child(2){animation-delay:.1s}
 .action-card:nth-child(3){animation-delay:.15s}
-.action-card:nth-child(4){animation-delay:.2s}
-.action-card:nth-child(5){animation-delay:.25s}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--success);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:100px;z-index:200;opacity:0;transition:all .3s;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-/* CONFIG FORM */
 .config-field{margin-bottom:12px}
 .config-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.04em}
 .config-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s}
@@ -127,10 +128,10 @@ select.form-input{cursor:pointer}
   <div class="home-top">
     <div class="greeting">
       <div class="greeting-sub">Bonjour 👋</div>
-      <div class="greeting-name" id="g-name">Jean-Marc</div>
-      <div class="greeting-trade" id="g-trade">Plombier · Lyon</div>
+      <div class="greeting-name" id="g-name">Artisan</div>
+      <div class="greeting-trade" id="g-trade">Métier · Ville</div>
     </div>
-    <div class="avatar" id="g-avatar">J</div>
+    <div class="avatar" id="g-avatar">A</div>
   </div>
   <div class="stats-row">
     <div class="stat-pill highlight">
@@ -152,7 +153,7 @@ select.form-input{cursor:pointer}
 
 <div class="screen hidden" id="screen-history">
   <div class="history-header">
-    <div class="h-back" onclick="showScreen('home')">←</div>
+    <div class="h-back" onclick="showScreen('home');setNav('home')">←</div>
     <div class="h-title">Historique</div>
   </div>
   <div class="history-list" id="history-list"></div>
@@ -171,19 +172,13 @@ select.form-input{cursor:pointer}
 
 <div class="bottom-nav">
   <div class="bn-item active" id="bn-home" onclick="showScreen('home');setNav('home')">
-    <div class="bn-icon">🏠</div>
-    <div class="bn-label">Accueil</div>
-    <div class="bn-dot"></div>
+    <div class="bn-icon">🏠</div><div class="bn-label">Accueil</div><div class="bn-dot"></div>
   </div>
   <div class="bn-item" id="bn-history" onclick="showScreen('history');setNav('history');renderHistory()">
-    <div class="bn-icon">📋</div>
-    <div class="bn-label">Historique</div>
-    <div class="bn-dot"></div>
+    <div class="bn-icon">📋</div><div class="bn-label">Historique</div><div class="bn-dot"></div>
   </div>
   <div class="bn-item" id="bn-settings" onclick="openSettings()">
-    <div class="bn-icon">⚙️</div>
-    <div class="bn-label">Config</div>
-    <div class="bn-dot"></div>
+    <div class="bn-icon">⚙️</div><div class="bn-label">Config</div><div class="bn-dot"></div>
   </div>
 </div>
 
@@ -198,29 +193,20 @@ const CONFIG_DEFAULT = {
   nom: "ProTM",
   metier: "Électricien",
   ville: "Lucan",
-  zone: "Lucan et environs",
   entreprise: "Jacques Électricien",
   tel: "0607080910",
   email: "iastart.info@gmail.com",
   siret: "123456789",
-  iban: "A completer",
-  site: "",
+  garantie: "1 an",
+  style: "professionnel et précis",
   mdo: "50",
   tva: "10% pour travaux de renovation",
-  acompte: "30% a la commande",
-  delai: "Paiement a la fin des travaux",
-  garantie: "1 an",
-  certif: "Garantie décennales",
-  style: "professionnel et précis",
-  services: [{ name: "Prestation courante", price: "" }],
   svcDevis: false, svcAdmin: false, svcCr: true, svcAvis: false,
-  svcContenu: false, gmailConnected: true,
+  gmailConnected: true,
 };
 // ═══════════════════════════════════════════════════════
 
-// Charger config depuis localStorage si modifiée
 let CONFIG = Object.assign({}, CONFIG_DEFAULT, JSON.parse(localStorage.getItem('artisan_config') || '{}'));
-
 let history = JSON.parse(localStorage.getItem('artisan_history') || '[]');
 let stats = JSON.parse(localStorage.getItem('artisan_stats') || '{"docs":0,"today":0,"todayDate":"","time":0}');
 let currentAction = null;
@@ -253,7 +239,7 @@ function getActions() {
     {
       id: 'cr', icon: '🎙️', iconBg: 'rgba(168,85,247,0.15)',
       title: 'Compte-rendu', desc: 'Après chaque intervention',
-      enabled: CONFIG.svcCr, wide: false,
+      enabled: CONFIG.svcCr,
       fields: () => `
         <div class="form-row">
           <div class="form-field"><label class="form-label">Client</label>
@@ -308,24 +294,9 @@ ${CONFIG.tel} · ${CONFIG.email}`;
       })
     },
     {
-      id: 'devis', icon: '🧾', iconBg: 'rgba(244,124,32,0.15)',
-      title: 'Nouveau devis', desc: 'Devis pro en 30 secondes',
-      enabled: CONFIG.svcDevis, wide: false,
-      fields: () => `
-        <div class="form-field"><label class="form-label">Client</label>
-          <input class="form-input" id="f-client" placeholder="Nom et prénom du client" autocomplete="off"></div>
-        <div class="form-field"><label class="form-label">Travaux à réaliser</label>
-          <textarea class="form-input" id="f-travaux" placeholder="Ex: remplacement chauffe-eau 200L..." rows="3"></textarea></div>`,
-      buildPrompt: (d) => `Génère un devis professionnel pour ${CONFIG.prenom} ${CONFIG.metier} à ${CONFIG.ville}. Client: ${d.client}. Travaux: ${d.travaux}. MO: ${CONFIG.mdo}€/h. TVA: ${CONFIG.tva}. Garantie: ${CONFIG.garantie}.`,
-      getData: () => ({
-        client: document.getElementById('f-client')?.value,
-        travaux: document.getElementById('f-travaux')?.value,
-      })
-    },
-    {
       id: 'avis', icon: '⭐', iconBg: 'rgba(251,191,36,0.15)',
       title: 'Répondre à un avis', desc: 'Google, Pages Jaunes...',
-      enabled: CONFIG.svcAvis, wide: false,
+      enabled: CONFIG.svcAvis,
       fields: () => `
         <div class="form-field"><label class="form-label">Note reçue</label>
           <div class="chips">
@@ -353,10 +324,9 @@ ${CONFIG.tel} · ${CONFIG.email}`;
 function renderActions() {
   const grid = document.getElementById('actions-grid');
   grid.innerHTML = '';
-  const actions = getActions();
-  actions.forEach(action => {
+  getActions().forEach(action => {
     const card = document.createElement('div');
-    card.className = `action-card${action.wide ? ' wide' : ''}`;
+    card.className = 'action-card';
     card.innerHTML = `
       <div class="ac-icon" style="background:${action.iconBg}">${action.icon}</div>
       <div><div class="ac-title">${action.title}</div><div class="ac-desc">${action.desc}</div></div>
@@ -424,21 +394,30 @@ async function generate() {
     const dlBtn = document.createElement('button');
     dlBtn.className = 'result-btn';
     dlBtn.innerHTML = '⬇️ Télécharger';
-    dlBtn.onclick = () => downloadResult(text, currentAction.title);
+    dlBtn.onclick = () => downloadResult(text, currentAction.title, data.client);
     actionsDiv.appendChild(dlBtn);
 
     if (CONFIG.gmailConnected && data.emailClient) {
       const sendBtn = document.createElement('button');
       sendBtn.className = 'result-btn primary';
       sendBtn.innerHTML = '📧 Envoyer';
-      sendBtn.onclick = () => sendEmail(data.emailClient, text);
+      sendBtn.onclick = () => sendEmail(data.emailClient, text, data.client);
       actionsDiv.appendChild(sendBtn);
     }
 
     document.getElementById('drawer-body').appendChild(actionsDiv);
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    const item = { id: Date.now(), type: currentAction.title, icon: currentAction.icon, text, date: new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) };
+    // Sauvegarde avec client + email
+    const item = {
+      id: Date.now(),
+      type: currentAction.title,
+      icon: currentAction.icon,
+      text,
+      client: data.client || '',
+      emailClient: data.emailClient || '',
+      date: new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+    };
     history.unshift(item);
     if (history.length > 50) history.pop();
     localStorage.setItem('artisan_history', JSON.stringify(history));
@@ -460,9 +439,10 @@ function copyResult(btn, text) {
   setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('success'); }, 2000);
 }
 
-function downloadResult(text, title) {
+function downloadResult(text, title, client) {
   const date = new Date().toLocaleDateString('fr-FR').replace(/\//g, '-');
-  const fname = (title + '-' + date).toLowerCase().replace(/[^a-z0-9-]/g, '') + '.txt';
+  const clientPart = client ? '-' + client.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+  const fname = title.toLowerCase().replace(/[^a-z0-9]/g, '') + clientPart + '-' + date + '.txt';
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -471,8 +451,9 @@ function downloadResult(text, title) {
   showToast('⬇️ Téléchargement lancé');
 }
 
-function sendEmail(to, text) {
-  const sub = 'Compte-rendu d\'intervention — ' + CONFIG.prenom + ' ' + CONFIG.metier;
+function sendEmail(to, text, client) {
+  const clientStr = client ? ' — ' + client : '';
+  const sub = 'Compte-rendu d\'intervention' + clientStr + ' — ' + CONFIG.prenom + ' ' + CONFIG.metier;
   showToast('📧 Envoi en cours...');
   fetch('/.netlify/functions/send-email', {
     method: 'POST',
@@ -497,8 +478,14 @@ function renderHistory() {
         <span class="hc-type">${item.type}</span>
         <span class="hc-date">${item.date}</span>
       </div>
+      ${item.client ? `<div class="hc-client">👤 ${item.client}</div>` : ''}
+      ${item.emailClient ? `<div class="hc-email">✉️ ${item.emailClient}</div>` : ''}
       <div class="hc-preview">${item.text}</div>
-      <button class="hc-btn" onclick="reuseItem(${item.id})">📋 Copier</button>
+      <div class="hc-actions">
+        <button class="hc-btn" onclick="reuseItem(${item.id})">📋 Copier</button>
+        <button class="hc-btn" onclick="downloadItem(${item.id})">⬇️ Télécharger</button>
+        ${item.emailClient ? `<button class="hc-btn send" onclick="resendItem(${item.id})">📧 Renvoyer</button>` : ''}
+      </div>
     </div>`).join('');
 }
 
@@ -507,8 +494,21 @@ function reuseItem(id) {
   if (item) { navigator.clipboard.writeText(item.text); showToast('Copié !'); }
 }
 
+function downloadItem(id) {
+  const item = history.find(h => h.id === id);
+  if (item) downloadResult(item.text, item.type, item.client);
+}
+
+function resendItem(id) {
+  const item = history.find(h => h.id === id);
+  if (item && item.emailClient) {
+    sendEmail(item.emailClient, item.text, item.client);
+  }
+}
+
 function openSettings() {
   document.getElementById('dh-icon').innerHTML = '<span style="font-size:16px">⚙️</span>';
+  document.getElementById('dh-icon').style.background = 'transparent';
   document.getElementById('dh-title').textContent = 'Configuration';
   document.getElementById('drawer-body').innerHTML = `
     <div class="config-field"><label class="config-label">Prénom</label>
@@ -528,7 +528,7 @@ function openSettings() {
     <div class="config-field"><label class="config-label">Garantie</label>
       <input class="config-input" id="cfg-garantie" value="${CONFIG.garantie}"></div>
     <button class="save-btn" onclick="saveConfig()">💾 Enregistrer les modifications</button>
-    <div style="margin-top:16px;font-size:11px;color:var(--text3);text-align:center">IA Start Pro™ — Pour toute question contacter votre prestataire</div>`;
+    <div style="margin-top:16px;font-size:11px;color:var(--text3);text-align:center">IA Start Pro™</div>`;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('drawer').classList.add('open');
 }
@@ -543,7 +543,6 @@ function saveConfig() {
   CONFIG.siret = document.getElementById('cfg-siret').value || CONFIG.siret;
   CONFIG.garantie = document.getElementById('cfg-garantie').value || CONFIG.garantie;
   CONFIG.entreprise = CONFIG.prenom + ' ' + CONFIG.metier;
-  CONFIG.zone = CONFIG.ville + ' et environs';
   localStorage.setItem('artisan_config', JSON.stringify(CONFIG));
   updateHeader();
   closeDrawer();
