@@ -6,60 +6,35 @@
 <title>Mon Assistant IA</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════ VARIABLES ═══════════════ */
 :root {
-  --bg: #0c0e14;
-  --surface: #13161f;
-  --card: #1a1e2a;
-  --card2: #20253380;
-  --border: rgba(255,255,255,0.07);
-  --orange: #f47c20;
-  --orange2: #ff9940;
-  --orange-glow: rgba(244,124,32,0.15);
-  --text: #f0f2f8;
-  --text2: #8892a4;
-  --text3: #4a5568;
-  --green: #4ade80;
-  --green-bg: rgba(74,222,128,0.1);
-  --blue: #60a5fa;
-  --success: #059669;
-  --r: 14px;
+  --bg: #0c0e14; --surface: #13161f; --card: #1a1e2a; --card2: #20253380;
+  --border: rgba(255,255,255,0.07); --orange: #f47c20; --orange2: #ff9940;
+  --orange-glow: rgba(244,124,32,0.15); --text: #f0f2f8; --text2: #8892a4;
+  --text3: #4a5568; --green: #4ade80; --green-bg: rgba(74,222,128,0.1);
+  --blue: #60a5fa; --success: #059669; --r: 14px;
 }
-/* ═══════════════ BASE ═══════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{height:100%;overflow:hidden}
 body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;position:relative}
-
-/* ═══════════════ NOISE TEXTURE ═══════════════ */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
-
-/* ═══════════════ AMBIENT ═══════════════ */
 .ambient{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
 .amb1{background:radial-gradient(circle,rgba(244,124,32,0.12),transparent 70%);top:-200px;right:-100px}
 .amb2{background:radial-gradient(circle,rgba(96,165,250,0.07),transparent 70%);bottom:-200px;left:-100px}
-
-/* ═══════════════ SCREEN MANAGER ═══════════════ */
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s;z-index:1}
 .screen.hidden{transform:translateY(30px);opacity:0;pointer-events:none}
-
-/* ═══════════════ HOME ═══════════════ */
-.home{padding:0;overflow:hidden}
+.home{padding:0;overflow:hidden;padding-bottom:70px}
 .home-top{padding:28px 24px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .greeting{display:flex;flex-direction:column}
 .greeting-sub{font-size:12px;color:var(--text2);font-weight:500;letter-spacing:.04em;margin-bottom:3px}
 .greeting-name{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--text);line-height:1.1}
 .greeting-trade{font-size:13px;color:var(--orange);font-weight:600;margin-top:2px}
 .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#c55a08);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 2px rgba(244,124,32,0.3)}
-
-/* QUICK STATS */
 .stats-row{display:flex;gap:10px;padding:0 24px 20px;flex-shrink:0}
 .stat-pill{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 .stat-val{font-size:18px;font-weight:700;color:var(--text)}
 .stat-label{font-size:10px;color:var(--text2);font-weight:500}
 .stat-pill.highlight{background:var(--orange-glow);border-color:rgba(244,124,32,0.25)}
 .stat-pill.highlight .stat-val{color:var(--orange)}
-
-/* ACTIONS GRID */
 .actions-label{padding:0 24px 10px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
 .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 24px;flex:1;overflow:hidden;align-content:start}
 .action-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 16px;cursor:pointer;transition:transform .15s,border-color .15s,background .15s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;user-select:none}
@@ -72,8 +47,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .ac-desc{font-size:11px;color:var(--text2);line-height:1.4}
 .ac-arrow{position:absolute;top:16px;right:16px;color:var(--text3);font-size:14px;transition:transform .15s}
 .action-card:hover .ac-arrow{transform:translate(2px,-2px)}
-
-/* ═══════════════ DRAWER ═══════════════ */
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:50;pointer-events:none;transition:background .3s}
 .drawer-overlay.open{background:rgba(0,0,0,0.6);pointer-events:all}
 .drawer{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);border-radius:20px 20px 0 0;z-index:51;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);max-height:92vh;display:flex;flex-direction:column}
@@ -84,8 +57,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .dh-title{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--text)}
 .drawer-close{margin-left:auto;width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--text2)}
 .drawer-body{padding:8px 20px 20px;overflow-y:auto;flex:1}
-
-/* FORM ELEMENTS */
 .form-field{margin-bottom:14px}
 .form-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block}
 .form-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s;-webkit-appearance:none}
@@ -94,34 +65,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 textarea.form-input{min-height:80px;resize:none;line-height:1.5}
 select.form-input{cursor:pointer}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* RADIO CHIPS */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 .chip{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s}
 .chip.selected{background:var(--orange-glow);border-color:rgba(244,124,32,0.4);color:var(--orange)}
-
-/* GENERATE BUTTON */
 .gen-btn{width:100%;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--orange),#d46010);color:#fff;font-size:15px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
 .gen-btn:active{transform:scale(0.98)}
 .gen-btn:disabled{opacity:.5;cursor:default}
 .gen-btn.loading{background:var(--card)}
-
-/* RESULT */
 .result-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:14px;font-size:13px;line-height:1.8;color:var(--text);white-space:pre-wrap;font-family:'Plus Jakarta Sans',sans-serif;max-height:280px;overflow-y:auto}
-.result-actions{display:flex;gap:8px;margin-top:10px}
-.result-btn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.result-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.result-btn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;min-width:80px}
 .result-btn:active{transform:scale(.97)}
 .result-btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}
 .result-btn.success{background:var(--green-bg);border-color:rgba(74,222,128,0.3);color:var(--green)}
-
-/* LOADING DOTS */
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 .loading-dots{display:flex;gap:5px;align-items:center;justify-content:center;padding:20px}
 .ld{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.2s infinite}
 .ld:nth-child(2){animation-delay:.2s}
 .ld:nth-child(3){animation-delay:.4s}
-
-/* HISTORY SCREEN */
 .history-list{padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1}
 .history-header{padding:20px 20px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .h-back{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
@@ -132,8 +93,6 @@ select.form-input{cursor:pointer}
 .hc-date{font-size:11px;color:var(--text3);margin-left:auto}
 .hc-preview{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hc-btn{margin-top:10px;font-size:12px;font-weight:600;color:var(--text2);background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:6px 12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif}
-
-/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:10px 0 env(safe-area-inset-bottom,10px);z-index:40}
 .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px;transition:opacity .15s}
 .bn-icon{font-size:20px}
@@ -141,36 +100,29 @@ select.form-input{cursor:pointer}
 .bn-item.active .bn-label{color:var(--orange)}
 .bn-dot{width:4px;height:4px;border-radius:50%;background:var(--orange);opacity:0}
 .bn-item.active .bn-dot{opacity:1}
-
-/* ANIMATIONS */
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .action-card{animation:slideUp .4s both}
 .action-card:nth-child(1){animation-delay:.05s}
 .action-card:nth-child(2){animation-delay:.1s}
 .action-card:nth-child(3){animation-delay:.15s}
 .action-card:nth-child(4){animation-delay:.2s}
 .action-card:nth-child(5){animation-delay:.25s}
-
-/* TOAST */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--success);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:100px;z-index:200;opacity:0;transition:all .3s;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-
-/* SAFE AREA */
-.home{padding-bottom:70px}
+/* CONFIG FORM */
+.config-field{margin-bottom:12px}
+.config-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.04em}
+.config-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s}
+.config-input:focus{border-color:rgba(244,124,32,0.5)}
+.save-btn{width:100%;padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--orange),#d46010);color:#fff;font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:8px}
 </style>
 </head>
 <body>
-
-<!-- ═══ AMBIENT LIGHT ═══ -->
 <div class="ambient amb1"></div>
 <div class="ambient amb2"></div>
 
-<!-- ═══ HOME SCREEN ═══ -->
 <div class="screen home" id="screen-home">
   <div class="home-top">
     <div class="greeting">
@@ -180,7 +132,6 @@ select.form-input{cursor:pointer}
     </div>
     <div class="avatar" id="g-avatar">J</div>
   </div>
-
   <div class="stats-row">
     <div class="stat-pill highlight">
       <div class="stat-val" id="stat-docs">0</div>
@@ -195,12 +146,10 @@ select.form-input{cursor:pointer}
       <div class="stat-label">Temps économisé</div>
     </div>
   </div>
-
   <div class="actions-label">Que voulez-vous faire ?</div>
   <div class="actions-grid" id="actions-grid"></div>
 </div>
 
-<!-- ═══ HISTORY SCREEN ═══ -->
 <div class="screen hidden" id="screen-history">
   <div class="history-header">
     <div class="h-back" onclick="showScreen('home')">←</div>
@@ -209,10 +158,7 @@ select.form-input{cursor:pointer}
   <div class="history-list" id="history-list"></div>
 </div>
 
-<!-- ═══ DRAWER OVERLAY ═══ -->
 <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
-
-<!-- ═══ DRAWER ═══ -->
 <div class="drawer" id="drawer">
   <div class="drawer-handle"></div>
   <div class="drawer-header">
@@ -223,7 +169,6 @@ select.form-input{cursor:pointer}
   <div class="drawer-body" id="drawer-body"></div>
 </div>
 
-<!-- ═══ BOTTOM NAV ═══ -->
 <div class="bottom-nav">
   <div class="bn-item active" id="bn-home" onclick="showScreen('home');setNav('home')">
     <div class="bn-icon">🏠</div>
@@ -242,14 +187,13 @@ select.form-input{cursor:pointer}
   </div>
 </div>
 
-<!-- ═══ TOAST ═══ -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════════════
 // 🔧 CONFIGURATION — L'ÉLÈVE REMPLIT CETTE SECTION
 // ═══════════════════════════════════════════════════════
-const CONFIG = {
+const CONFIG_DEFAULT = {
   prenom: "Jacques",
   nom: "ProTM",
   metier: "Électricien",
@@ -268,34 +212,33 @@ const CONFIG = {
   garantie: "1 an",
   certif: "Garantie décennales",
   style: "professionnel et précis",
-  services: [
-    { name: "Prestation courante", price: "" }
-  ],
-  svcDevis: false,
-  svcAdmin: false,
-  svcCr: true,
-  svcAvis: false,
-  svcContenu: false,
-  gmailConnected: true,
-}
+  services: [{ name: "Prestation courante", price: "" }],
+  svcDevis: false, svcAdmin: false, svcCr: true, svcAvis: false,
+  svcContenu: false, gmailConnected: true,
+};
 // ═══════════════════════════════════════════════════════
 
-// STATE
+// Charger config depuis localStorage si modifiée
+let CONFIG = Object.assign({}, CONFIG_DEFAULT, JSON.parse(localStorage.getItem('artisan_config') || '{}'));
+
 let history = JSON.parse(localStorage.getItem('artisan_history') || '[]');
 let stats = JSON.parse(localStorage.getItem('artisan_stats') || '{"docs":0,"today":0,"todayDate":"","time":0}');
 let currentAction = null;
 
-// INIT
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   const today = new Date().toDateString();
   if (stats.todayDate !== today) { stats.today = 0; stats.todayDate = today; }
+  updateHeader();
+  updateStats();
+  renderActions();
+}
+
+function updateHeader() {
   document.getElementById('g-name').textContent = CONFIG.prenom;
   document.getElementById('g-trade').textContent = CONFIG.metier + ' · ' + CONFIG.ville;
   document.getElementById('g-avatar').textContent = CONFIG.prenom[0].toUpperCase();
-  updateStats();
-  renderActions();
 }
 
 function updateStats() {
@@ -305,139 +248,8 @@ function updateStats() {
   localStorage.setItem('artisan_stats', JSON.stringify(stats));
 }
 
-// ═══ ACTIONS DEFINITION ═══
 function getActions() {
   const all = [
-    {
-      id: 'devis', icon: '🧾', iconBg: 'rgba(244,124,32,0.15)',
-      title: 'Nouveau devis', desc: 'Devis pro en 30 secondes',
-      enabled: CONFIG.svcDevis, wide: false,
-      fields: () => `
-        <div class="form-field"><label class="form-label">Client</label>
-          <input class="form-input" id="f-client" placeholder="Nom et prénom du client" autocomplete="off"></div>
-        <div class="form-field"><label class="form-label">Travaux à réaliser</label>
-          <textarea class="form-input" id="f-travaux" placeholder="Ex: remplacement chauffe-eau 200L + robinet cuisine..." rows="3"></textarea></div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">Adresse</label>
-            <input class="form-input" id="f-adresse" placeholder="Facultatif"></div>
-          <div class="form-field"><label class="form-label">Urgence</label>
-            <select class="form-input" id="f-urgence">
-              <option value="">Normale</option>
-              <option value="URGENT — intervention sous 24h">Urgente</option>
-              <option value="Planifiable sous 1 semaine">Sous 1 semaine</option>
-            </select></div>
-        </div>`,
-      buildPrompt: (d) => {
-        const svcList = CONFIG.services.map(s => `- ${s.name} : ${s.price}€`).join('\n');
-        return `Génère un devis professionnel complet.
-
-ARTISAN : ${CONFIG.prenom} ${CONFIG.nom} · ${CONFIG.metier} · ${CONFIG.ville}
-${CONFIG.entreprise} · ${CONFIG.tel} · ${CONFIG.email}
-SIRET : ${CONFIG.siret} · ${CONFIG.certif || ''}
-
-CLIENT : ${d.client || 'À préciser'}
-ADRESSE : ${d.adresse || CONFIG.ville}
-TRAVAUX : ${d.travaux}
-${d.urgence ? 'URGENCE : ' + d.urgence : ''}
-
-TARIFS DE RÉFÉRENCE :
-- Main d'œuvre : ${CONFIG.mdo}€/h
-${svcList}
-
-CONDITIONS : TVA ${CONFIG.tva} · ${CONFIG.acompte} · ${CONFIG.delai} · Garantie ${CONFIG.garantie}
-
-FORMAT EXACT À RESPECTER :
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-DEVIS N° ${new Date().getFullYear()}-${String(Math.floor(Math.random()*900)+100)}
-${CONFIG.entreprise}
-${CONFIG.tel} · ${CONFIG.email}
-${CONFIG.site || ''}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Date : ${new Date().toLocaleDateString('fr-FR')}
-Client : [nom client]
-Adresse : [adresse]
-
-DÉSIGNATION                    PU HT    TOTAL HT
-──────────────────────────────────────────────
-[lignes de travaux détaillées]
-──────────────────────────────────────────────
-TOTAL HT : X,XX€
-TVA ${CONFIG.tva} : X,XX€
-TOTAL TTC : X,XX€
-
-${CONFIG.acompte !== 'Aucun acompte demandé' ? CONFIG.acompte + ' : X,XX€' : ''}
-Validité : 30 jours · Garantie : ${CONFIG.garantie}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${CONFIG.prenom} ${CONFIG.nom} — Signé le ${new Date().toLocaleDateString('fr-FR')}
-
-IMPORTANT : Calcule les prix précisément selon les tarifs fournis. Sois précis et professionnel.`
-      },
-      getData: () => ({
-        client: document.getElementById('f-client')?.value,
-        travaux: document.getElementById('f-travaux')?.value,
-        adresse: document.getElementById('f-adresse')?.value,
-        urgence: document.getElementById('f-urgence')?.value
-      })
-    },
-    {
-      id: 'relance', icon: '📬', iconBg: 'rgba(96,165,250,0.15)',
-      title: 'Relancer un client', desc: 'Email de relance facture',
-      enabled: CONFIG.svcAdmin, wide: false,
-      fields: () => `
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">Client</label>
-            <input class="form-input" id="f-client" placeholder="Nom client" autocomplete="off"></div>
-          <div class="form-field"><label class="form-label">Montant</label>
-            <input class="form-input" id="f-montant" placeholder="Ex: 850" type="number"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">N° Facture</label>
-            <input class="form-input" id="f-facture" placeholder="Ex: FA-2024-047"></div>
-          <div class="form-field"><label class="form-label">Date des travaux</label>
-            <input class="form-input" id="f-date" placeholder="Ex: 12 novembre" type="date"></div>
-        </div>
-        <div class="form-field"><label class="form-label">Retard</label>
-          <div class="chips">
-            <div class="chip selected" onclick="selectChip(this)">< 15 jours</div>
-            <div class="chip" onclick="selectChip(this)">15-30 jours</div>
-            <div class="chip" onclick="selectChip(this)">> 30 jours</div>
-          </div></div>
-        <div class="form-field"><label class="form-label">Email du client (facultatif)</label>
-          <input class="form-input" id="f-email-client" placeholder="Pour envoi direct" type="email"></div>`,
-      buildPrompt: (d) => {
-        const retard = d.retard || '< 15 jours';
-        const ton = retard.includes('30') ? 'très ferme avec mention de démarches possibles' : retard.includes('15') ? 'ferme avec délai de 7 jours' : 'cordial et simple rappel';
-        const dateFormatted = d.date ? new Date(d.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long'}) : 'récemment';
-        return `Rédige un email de relance facture. Ton : ${ton}.
-
-DE : ${CONFIG.prenom} ${CONFIG.nom} — ${CONFIG.metier}
-CLIENT : ${d.client || '[Client]'}
-FACTURE : ${d.facture || '[N° facture]'} — ${d.montant || '[montant]'}€
-DATE TRAVAUX : ${dateFormatted}
-RETARD : ${retard}
-
-INFOS DE RÈGLEMENT :
-IBAN : ${CONFIG.iban}
-À l'ordre de : ${CONFIG.entreprise}
-Chèque possible
-
-RÈGLES ABSOLUES :
-- Objet de l'email en premier : "Objet : ..."
-- Email direct, humain, style ${CONFIG.style}
-- Mentionner le numéro et montant dès la 1ère ligne  
-- Donner les coordonnées de paiement clairement
-- Signer avec : ${CONFIG.prenom} — ${CONFIG.metier} · ${CONFIG.tel}
-- Aucun crochet dans le résultat final`
-      },
-      getData: () => ({
-        client: document.getElementById('f-client')?.value,
-        montant: document.getElementById('f-montant')?.value,
-        facture: document.getElementById('f-facture')?.value,
-        date: document.getElementById('f-date')?.value,
-        retard: document.querySelector('.chips .chip.selected')?.textContent,
-        emailClient: document.getElementById('f-email-client')?.value
-      })
-    },
     {
       id: 'cr', icon: '🎙️', iconBg: 'rgba(168,85,247,0.15)',
       title: 'Compte-rendu', desc: 'Après chaque intervention',
@@ -450,7 +262,7 @@ RÈGLES ABSOLUES :
             <input class="form-input" id="f-adresse" placeholder="Facultatif"></div>
         </div>
         <div class="form-field"><label class="form-label">Ce que j'ai fait 🎤 (dicter ou écrire librement)</label>
-          <textarea class="form-input" id="f-travaux" placeholder="Ex: changé joint douche et robinet lavabo, 1h30 de travail, tout OK. J'ai remarqué que le flexible de douche est vieux..." rows="4"></textarea></div>
+          <textarea class="form-input" id="f-travaux" placeholder="Ex: changé joint douche et robinet lavabo, 1h30 de travail, tout OK..." rows="4"></textarea></div>
         <div class="form-field"><label class="form-label">Email client (pour envoi)</label>
           <input class="form-input" id="f-email-client" placeholder="facultatif" type="email"></div>`,
       buildPrompt: (d) => {
@@ -463,7 +275,7 @@ CLIENT : ${d.client || 'À préciser'}
 ADRESSE : ${d.adresse || CONFIG.ville}
 DATE : ${dateStr}
 
-INTERVENTION RÉALISÉE (résumé de l'artisan) :
+INTERVENTION RÉALISÉE :
 ${d.travaux}
 
 FORMAT EXACT :
@@ -481,18 +293,33 @@ MATÉRIAUX UTILISÉS :
 • [si mentionnés, sinon supprimer cette section]
 
 OBSERVATIONS ET RECOMMANDATIONS :
-[conseils, problèmes détectés, entretien conseillé — rédiger de façon utile pour le client]
+[conseils, problèmes détectés, entretien conseillé]
 
 GARANTIE : ${CONFIG.garantie}
 ══════════════════════════════════
 ${CONFIG.prenom} ${CONFIG.nom}
-${CONFIG.tel} · ${CONFIG.email}`
+${CONFIG.tel} · ${CONFIG.email}`;
       },
       getData: () => ({
         client: document.getElementById('f-client')?.value,
         adresse: document.getElementById('f-adresse')?.value,
         travaux: document.getElementById('f-travaux')?.value,
         emailClient: document.getElementById('f-email-client')?.value
+      })
+    },
+    {
+      id: 'devis', icon: '🧾', iconBg: 'rgba(244,124,32,0.15)',
+      title: 'Nouveau devis', desc: 'Devis pro en 30 secondes',
+      enabled: CONFIG.svcDevis, wide: false,
+      fields: () => `
+        <div class="form-field"><label class="form-label">Client</label>
+          <input class="form-input" id="f-client" placeholder="Nom et prénom du client" autocomplete="off"></div>
+        <div class="form-field"><label class="form-label">Travaux à réaliser</label>
+          <textarea class="form-input" id="f-travaux" placeholder="Ex: remplacement chauffe-eau 200L..." rows="3"></textarea></div>`,
+      buildPrompt: (d) => `Génère un devis professionnel pour ${CONFIG.prenom} ${CONFIG.metier} à ${CONFIG.ville}. Client: ${d.client}. Travaux: ${d.travaux}. MO: ${CONFIG.mdo}€/h. TVA: ${CONFIG.tva}. Garantie: ${CONFIG.garantie}.`,
+      getData: () => ({
+        client: document.getElementById('f-client')?.value,
+        travaux: document.getElementById('f-travaux')?.value,
       })
     },
     {
@@ -509,90 +336,20 @@ ${CONFIG.tel} · ${CONFIG.email}`
             <div class="chip selected" onclick="selectChip(this)">⭐⭐⭐⭐⭐ 5</div>
           </div></div>
         <div class="form-field"><label class="form-label">Texte de l'avis</label>
-          <textarea class="form-input" id="f-avis" placeholder="Colle ici le texte de l'avis reçu..." rows="4"></textarea></div>`,
+          <textarea class="form-input" id="f-avis" placeholder="Colle ici le texte de l'avis..." rows="4"></textarea></div>`,
       buildPrompt: (d) => {
         const note = parseInt(d.note || '5');
-        const positif = note >= 4;
-        return `Rédige une réponse à cet avis Google pour ${CONFIG.prenom}, ${CONFIG.metier} à ${CONFIG.ville}.
-
-NOTE : ${note}/5
-AVIS : ${d.avis || '[texte de l\'avis]'}
-
-RÈGLES :
-${positif ? `- Réponse chaleureuse, 3-4 lignes
-- Remercier sincèrement, mentionner la ville ${CONFIG.ville}
-- Référencer la prestation si mentionnée
-- Ton ${CONFIG.style}` : `- Jamais défensif ou agressif
-- Reconnaître le ressenti du client
-- Proposer de résoudre en privé : ${CONFIG.tel}
-- Montrer qu'on prend ça au sérieux
-- 4-5 lignes max`}
-- Signer avec : ${CONFIG.prenom}
-- AUCUN crochet dans le résultat`
+        return `Rédige une réponse à cet avis Google pour ${CONFIG.prenom}, ${CONFIG.metier} à ${CONFIG.ville}. Note: ${note}/5. Avis: ${d.avis}. Ton: ${CONFIG.style}. Signer avec ${CONFIG.prenom}. Aucun crochet.`;
       },
       getData: () => ({
         note: document.querySelector('.chips .chip.selected')?.textContent.match(/\d/)?.[0],
         avis: document.getElementById('f-avis')?.value
-      })
-    },
-    {
-      id: 'confirm', icon: '📅', iconBg: 'rgba(74,222,128,0.15)',
-      title: 'Confirmer un RDV', desc: 'SMS ou email de confirmation',
-      enabled: CONFIG.svcAdmin, wide: true,
-      fields: () => `
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">Client</label>
-            <input class="form-input" id="f-client" placeholder="Nom client" autocomplete="off"></div>
-          <div class="form-field"><label class="form-label">Email / Tel client</label>
-            <input class="form-input" id="f-contact-client" placeholder="Pour envoi"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">Date</label>
-            <input class="form-input" id="f-date" type="date"></div>
-          <div class="form-field"><label class="form-label">Heure</label>
-            <input class="form-input" id="f-heure" placeholder="Ex: 10h00"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field"><label class="form-label">Type de travaux</label>
-            <input class="form-input" id="f-travaux" placeholder="Ex: remplacement chauffe-eau"></div>
-          <div class="form-field"><label class="form-label">Format</label>
-            <select class="form-input" id="f-format">
-              <option value="email">Email</option>
-              <option value="SMS">SMS</option>
-            </select></div>
-        </div>`,
-      buildPrompt: (d) => {
-        const dateFormatted = d.date ? new Date(d.date).toLocaleDateString('fr-FR', {weekday:'long',day:'numeric',month:'long'}) : '[date]';
-        return `Rédige une ${d.format || 'email'} de confirmation de RDV.
-
-ARTISAN : ${CONFIG.prenom} · ${CONFIG.tel}
-CLIENT : ${d.client || '[client]'}
-DATE : ${dateFormatted} à ${d.heure || '[heure]'}
-TRAVAUX : ${d.travaux || '[travaux]'}
-
-${d.format === 'SMS' ? 'SMS : max 5 lignes, naturel, inclure date + heure précise + contact' : `Email :
-- Objet en premier
-- Confirmer date, heure, adresse
-- Préciser ce que le client doit prévoir (présence, accès)
-- Contact en cas d'imprévu : ${CONFIG.tel}`}
-
-Signer : ${CONFIG.prenom} — ${CONFIG.tel}
-Aucun crochet dans le résultat`
-      },
-      getData: () => ({
-        client: document.getElementById('f-client')?.value,
-        contactClient: document.getElementById('f-contact-client')?.value,
-        date: document.getElementById('f-date')?.value,
-        heure: document.getElementById('f-heure')?.value,
-        travaux: document.getElementById('f-travaux')?.value,
-        format: document.getElementById('f-format')?.value
       })
     }
   ];
   return all.filter(a => a.enabled);
 }
 
-// ═══ RENDER ACTIONS ═══
 function renderActions() {
   const grid = document.getElementById('actions-grid');
   grid.innerHTML = '';
@@ -602,26 +359,20 @@ function renderActions() {
     card.className = `action-card${action.wide ? ' wide' : ''}`;
     card.innerHTML = `
       <div class="ac-icon" style="background:${action.iconBg}">${action.icon}</div>
-      <div>
-        <div class="ac-title">${action.title}</div>
-        <div class="ac-desc">${action.desc}</div>
-      </div>
+      <div><div class="ac-title">${action.title}</div><div class="ac-desc">${action.desc}</div></div>
       <div class="ac-arrow">↗</div>`;
     card.onclick = () => openAction(action);
     grid.appendChild(card);
   });
 }
 
-// ═══ DRAWER ═══
 function openAction(action) {
   currentAction = action;
   document.getElementById('dh-icon').innerHTML = `<span style="background:${action.iconBg};width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px">${action.icon}</span>`;
   document.getElementById('dh-icon').style.background = 'transparent';
   document.getElementById('dh-title').textContent = action.title;
   document.getElementById('drawer-body').innerHTML = action.fields() + `
-    <button class="gen-btn" id="gen-btn" onclick="generate()">
-      <span>⚡</span> <span>Générer maintenant</span>
-    </button>`;
+    <button class="gen-btn" id="gen-btn" onclick="generate()"><span>⚡</span> <span>Générer maintenant</span></button>`;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('drawer').classList.add('open');
   setTimeout(() => document.querySelector('.form-input')?.focus(), 400);
@@ -637,77 +388,65 @@ function selectChip(el) {
   el.classList.add('selected');
 }
 
-// ═══ GENERATE ═══
 async function generate() {
   if (!currentAction) return;
   const btn = document.getElementById('gen-btn');
   const data = currentAction.getData();
   const prompt = currentAction.buildPrompt(data);
-
   btn.disabled = true;
   btn.innerHTML = '<div class="loading-dots"><div class="ld"></div><div class="ld"></div><div class="ld"></div></div>';
   btn.classList.add('loading');
-
-  // Remove previous result
   document.querySelector('.result-box')?.remove();
   document.querySelector('.result-actions')?.remove();
-
   try {
     const res = await fetch('/.netlify/functions/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
     });
     const json = await res.json();
     const text = json.content?.map(b => b.text || '').join('') || 'Une erreur est survenue.';
 
-    // Show result
     const resultBox = document.createElement('div');
     resultBox.className = 'result-box';
     resultBox.textContent = text;
     document.getElementById('drawer-body').appendChild(resultBox);
 
-   // Actions buttons
-const actionsDiv = document.createElement('div');
-actionsDiv.className = 'result-actions';
+    const actionsDiv = document.createElement('div');
+    actionsDiv.className = 'result-actions';
 
-const copyBtn = document.createElement('button');
-copyBtn.className = 'result-btn';
-copyBtn.innerHTML = '📋 Copier';
-copyBtn.onclick = () => copyResult(copyBtn, text);
-actionsDiv.appendChild(copyBtn);
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'result-btn';
+    copyBtn.innerHTML = '📋 Copier';
+    copyBtn.onclick = () => copyResult(copyBtn, text);
+    actionsDiv.appendChild(copyBtn);
 
-if (CONFIG.gmailConnected && data.emailClient) {
-  const sendBtn = document.createElement('button');
-  sendBtn.className = 'result-btn primary';
-  sendBtn.innerHTML = '📧 Envoyer';
-  sendBtn.onclick = () => sendEmail(data.emailClient, text);
-  actionsDiv.appendChild(sendBtn);
-}
+    const dlBtn = document.createElement('button');
+    dlBtn.className = 'result-btn';
+    dlBtn.innerHTML = '⬇️ Télécharger';
+    dlBtn.onclick = () => downloadResult(text, currentAction.title);
+    actionsDiv.appendChild(dlBtn);
 
-document.getElementById('drawer-body').appendChild(actionsDiv);
+    if (CONFIG.gmailConnected && data.emailClient) {
+      const sendBtn = document.createElement('button');
+      sendBtn.className = 'result-btn primary';
+      sendBtn.innerHTML = '📧 Envoyer';
+      sendBtn.onclick = () => sendEmail(data.emailClient, text);
+      actionsDiv.appendChild(sendBtn);
+    }
 
-    // Scroll to result
+    document.getElementById('drawer-body').appendChild(actionsDiv);
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    // Save to history
     const item = { id: Date.now(), type: currentAction.title, icon: currentAction.icon, text, date: new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) };
     history.unshift(item);
     if (history.length > 50) history.pop();
     localStorage.setItem('artisan_history', JSON.stringify(history));
-
-    // Update stats
     stats.docs++; stats.today++; stats.time += 8;
     updateStats();
-
   } catch(e) {
     showToast('Erreur de connexion — réessaie');
   }
-
   btn.disabled = false;
   btn.innerHTML = '<span>⚡</span> <span>Régénérer</span>';
   btn.classList.remove('loading');
@@ -720,6 +459,18 @@ function copyResult(btn, text) {
   showToast('Copié dans le presse-papier');
   setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('success'); }, 2000);
 }
+
+function downloadResult(text, title) {
+  const date = new Date().toLocaleDateString('fr-FR').replace(/\//g, '-');
+  const fname = (title + '-' + date).toLowerCase().replace(/[^a-z0-9-]/g, '') + '.txt';
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = fname; a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇️ Téléchargement lancé');
+}
+
 function sendEmail(to, text) {
   const sub = 'Compte-rendu d\'intervention — ' + CONFIG.prenom + ' ' + CONFIG.metier;
   showToast('📧 Envoi en cours...');
@@ -733,7 +484,6 @@ function sendEmail(to, text) {
   .catch(() => showToast('❌ Erreur envoi — réessaie'));
 }
 
-// ═══ HISTORY ═══
 function renderHistory() {
   const list = document.getElementById('history-list');
   if (!history.length) {
@@ -748,52 +498,58 @@ function renderHistory() {
         <span class="hc-date">${item.date}</span>
       </div>
       <div class="hc-preview">${item.text}</div>
-      <button class="hc-btn" onclick="reuse(${item.id})">📋 Copier</button>
+      <button class="hc-btn" onclick="reuseItem(${item.id})">📋 Copier</button>
     </div>`).join('');
 }
 
-function reuse(id) {
+function reuseItem(id) {
   const item = history.find(h => h.id === id);
   if (item) { navigator.clipboard.writeText(item.text); showToast('Copié !'); }
 }
 
-// ═══ SETTINGS ═══
 function openSettings() {
-  const svcList = CONFIG.services.map(s => `• ${s.name} : ${s.price}€`).join('\n');
   document.getElementById('dh-icon').innerHTML = '<span style="font-size:16px">⚙️</span>';
   document.getElementById('dh-title').textContent = 'Configuration';
   document.getElementById('drawer-body').innerHTML = `
-    <div style="background:var(--card);border-radius:10px;padding:14px;margin-bottom:12px">
-      <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Profil artisan</div>
-      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text)">
-        <div>👤 <strong>${CONFIG.prenom} ${CONFIG.nom}</strong></div>
-        <div>🔧 ${CONFIG.metier} · ${CONFIG.ville}</div>
-        <div>📞 ${CONFIG.tel}</div>
-        <div>✉️ ${CONFIG.email}</div>
-        <div>📋 SIRET : ${CONFIG.siret}</div>
-        ${CONFIG.iban ? '<div>🏦 IBAN configuré ✅</div>' : ''}
-      </div>
-    </div>
-    <div style="background:var(--card);border-radius:10px;padding:14px;margin-bottom:12px">
-      <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Tarifs configurés</div>
-      <div style="font-size:12px;color:var(--text);white-space:pre-line;line-height:1.8">${svcList}</div>
-    </div>
-    <div style="background:var(--card);border-radius:10px;padding:14px">
-      <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Services activés</div>
-      <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
-        ${CONFIG.svcDevis ? '<div>✅ Générateur de devis</div>' : ''}
-        ${CONFIG.svcAdmin ? '<div>✅ Admin & Emails</div>' : ''}
-        ${CONFIG.svcCr ? '<div>✅ Compte-rendu chantier</div>' : ''}
-        ${CONFIG.svcAvis ? '<div>✅ Réponses avis Google</div>' : ''}
-        ${CONFIG.gmailConnected ? '<div>✅ Gmail connecté — envoi direct</div>' : '<div>⚪ Gmail non connecté</div>'}
-      </div>
-    </div>
-    <div style="margin-top:16px;font-size:11px;color:var(--text3);text-align:center">Pour modifier la configuration, contacter votre prestataire IA Start Pro™</div>`;
+    <div class="config-field"><label class="config-label">Prénom</label>
+      <input class="config-input" id="cfg-prenom" value="${CONFIG.prenom}"></div>
+    <div class="config-field"><label class="config-label">Nom</label>
+      <input class="config-input" id="cfg-nom" value="${CONFIG.nom}"></div>
+    <div class="config-field"><label class="config-label">Métier</label>
+      <input class="config-input" id="cfg-metier" value="${CONFIG.metier}"></div>
+    <div class="config-field"><label class="config-label">Ville</label>
+      <input class="config-input" id="cfg-ville" value="${CONFIG.ville}"></div>
+    <div class="config-field"><label class="config-label">Téléphone</label>
+      <input class="config-input" id="cfg-tel" value="${CONFIG.tel}" type="tel"></div>
+    <div class="config-field"><label class="config-label">Email pro</label>
+      <input class="config-input" id="cfg-email" value="${CONFIG.email}" type="email"></div>
+    <div class="config-field"><label class="config-label">SIRET</label>
+      <input class="config-input" id="cfg-siret" value="${CONFIG.siret}"></div>
+    <div class="config-field"><label class="config-label">Garantie</label>
+      <input class="config-input" id="cfg-garantie" value="${CONFIG.garantie}"></div>
+    <button class="save-btn" onclick="saveConfig()">💾 Enregistrer les modifications</button>
+    <div style="margin-top:16px;font-size:11px;color:var(--text3);text-align:center">IA Start Pro™ — Pour toute question contacter votre prestataire</div>`;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('drawer').classList.add('open');
 }
 
-// ═══ SCREENS ═══
+function saveConfig() {
+  CONFIG.prenom = document.getElementById('cfg-prenom').value || CONFIG.prenom;
+  CONFIG.nom = document.getElementById('cfg-nom').value || CONFIG.nom;
+  CONFIG.metier = document.getElementById('cfg-metier').value || CONFIG.metier;
+  CONFIG.ville = document.getElementById('cfg-ville').value || CONFIG.ville;
+  CONFIG.tel = document.getElementById('cfg-tel').value || CONFIG.tel;
+  CONFIG.email = document.getElementById('cfg-email').value || CONFIG.email;
+  CONFIG.siret = document.getElementById('cfg-siret').value || CONFIG.siret;
+  CONFIG.garantie = document.getElementById('cfg-garantie').value || CONFIG.garantie;
+  CONFIG.entreprise = CONFIG.prenom + ' ' + CONFIG.metier;
+  CONFIG.zone = CONFIG.ville + ' et environs';
+  localStorage.setItem('artisan_config', JSON.stringify(CONFIG));
+  updateHeader();
+  closeDrawer();
+  showToast('✅ Configuration sauvegardée !');
+}
+
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById('screen-' + name).classList.remove('hidden');
@@ -804,7 +560,6 @@ function setNav(name) {
   document.getElementById('bn-' + name)?.classList.add('active');
 }
 
-// ═══ TOAST ═══
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
