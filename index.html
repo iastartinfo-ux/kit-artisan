@@ -712,9 +712,23 @@ function copyResult(btn) {
 
 function sendEmail(to, encodedText) {
   const body = decodeURIComponent(encodedText);
-  const sub = 'Message de ' + CONFIG.prenom + ' — ' + CONFIG.metier;
-  window.open('mailto:' + to + '?subject=' + encodeURIComponent(sub) + '&body=' + encodeURIComponent(body));
-  showToast('📧 Gmail ouvert — appuyez Envoyer');
+  const sub = 'Compte-rendu d\'intervention — ' + CONFIG.prenom + ' ' + CONFIG.metier;
+  
+  showToast('📧 Envoi en cours...');
+  
+  fetch('/.netlify/functions/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: to,
+      subject: sub,
+      text: body,
+      artisan: CONFIG.prenom + ' ' + CONFIG.metier
+    })
+  })
+  .then(r => r.json())
+  .then(() => showToast('✅ Email envoyé au client !'))
+  .catch(() => showToast('❌ Erreur envoi — réessaie'));
 }
 
 // ═══ HISTORY ═══
