@@ -671,13 +671,25 @@ async function generate() {
     resultBox.textContent = text;
     document.getElementById('drawer-body').appendChild(resultBox);
 
-    // Actions buttons
-    const actionsDiv = document.createElement('div');
-    actionsDiv.className = 'result-actions';
-    actionsDiv.innerHTML = `
-      <button class="result-btn" onclick="copyResult(this)" data-text="${encodeURIComponent(text)}">📋 Copier</button>
-      ${CONFIG.gmailConnected && data.emailClient ? `<button class="result-btn primary" onclick="sendEmail('${data.emailClient}','${encodeURIComponent(text)}')">📧 Envoyer</button>` : ''}`;
-    document.getElementById('drawer-body').appendChild(actionsDiv);
+   // Actions buttons
+const actionsDiv = document.createElement('div');
+actionsDiv.className = 'result-actions';
+
+const copyBtn = document.createElement('button');
+copyBtn.className = 'result-btn';
+copyBtn.innerHTML = '📋 Copier';
+copyBtn.onclick = () => copyResult(copyBtn, text);
+actionsDiv.appendChild(copyBtn);
+
+if (CONFIG.gmailConnected && data.emailClient) {
+  const sendBtn = document.createElement('button');
+  sendBtn.className = 'result-btn primary';
+  sendBtn.innerHTML = '📧 Envoyer';
+  sendBtn.onclick = () => sendEmail(data.emailClient, text);
+  actionsDiv.appendChild(sendBtn);
+}
+
+document.getElementById('drawer-body').appendChild(actionsDiv);
 
     // Scroll to result
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -701,30 +713,20 @@ async function generate() {
   btn.classList.remove('loading');
 }
 
-function copyResult(btn) {
-  const text = decodeURIComponent(btn.dataset.text);
+function copyResult(btn, text) {
   navigator.clipboard.writeText(text);
   btn.textContent = '✅ Copié !';
   btn.classList.add('success');
   showToast('Copié dans le presse-papier');
   setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('success'); }, 2000);
 }
-
-function sendEmail(to, encodedText) {
-  const body = decodeURIComponent(encodedText);
+function sendEmail(to, text) {
   const sub = 'Compte-rendu d\'intervention — ' + CONFIG.prenom + ' ' + CONFIG.metier;
-  
   showToast('📧 Envoi en cours...');
-  
   fetch('/.netlify/functions/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      to: to,
-      subject: sub,
-      text: body,
-      artisan: CONFIG.prenom + ' ' + CONFIG.metier
-    })
+    body: JSON.stringify({ to, subject: sub, text, artisan: CONFIG.prenom + ' ' + CONFIG.metier })
   })
   .then(r => r.json())
   .then(() => showToast('✅ Email envoyé au client !'))
